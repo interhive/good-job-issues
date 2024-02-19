@@ -20,8 +20,14 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
-  <<: *default
-  database: good_job_issues_development
+  primary:
+    <<: *default
+    database: good_job_issues_development
+  secondary:
+    <<: *default
+    database: secondary_development
+    migrations_paths: db/goodjob_migrate
+
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -54,8 +60,14 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: good_job_issues_test
+  primary:
+    <<: *default
+    database: good_job_issues_test
+  secondary:
+    <<: *default
+    database: secondary_test
+    migrations_paths: db/goodjob_migrate
+
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -78,7 +90,14 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: good_job_issues_production
-  username: good_job_issues
-  password: <%= ENV["GOOD_JOB_ISSUES_DATABASE_PASSWORD"] %>
+  primary:
+    <<: *default
+    database: good_job_issues_production
+    username: good_job_issues
+    password: <%= ENV["GOOD_JOB_ISSUES_DATABASE_PASSWORD"] %>
+  secondary:
+    <<: *default
+    database: secondary_production
+    username: good_job_issues
+    password: <%= ENV["SECONDARY_DATABASE_PASSWORD"] %>
+    migrations_paths: db/goodjob_migrate
